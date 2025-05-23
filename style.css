@@ -1,0 +1,31 @@
+.wrapper{
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: top;
+
+}
+.item_circle{
+    border: 2px brown solid;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+}
+header{
+    
+    text-align: center;
+    margin-bottom: 30px;
+}
+.container_Circle{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap:20px;
+    
+}
+
+#timer_Container{
+    text-align: center;
+    flex-basis: 100px;
+}
