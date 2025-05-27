@@ -1,45 +1,29 @@
-const arr =[
-    {id: 1,
-        status: 0
-    },
-     {id: 2,
-        status: 0
-    },
-     {id: 3,
-        status: 0
-    },
-     {id: 4,
-        status: 0
-    },
-     {id: 5,
-        status: 0
-    },
-     {id: 6,
-        status: 0
-    },
-     {id: 7,
-        status: 0
-    },
-     {id: 8,
-        status: 0
-    },
-     {id: 9,
-        status: 0
-    },
-     {id: 10,
-        status: 0
-    },
-     {id: 11,
-        status: 0
-    },
-     {id: 12,
-        status: 0
-    }
-]
 
 const API =(()=>{
 
-})();
+    const generateArray =()=>{
+        let arr=[];
+
+        for(let i=1; i< 13; i++){
+            let newly={
+                id: i,
+                status: false
+
+            }
+
+            arr.push(newly);
+
+        }
+
+        return arr;
+    }
+
+
+    return{
+        generateArray,
+    }
+})()
+ const arr =API.generateArray();
 
 const View=(()=>{
     let btnStart = document.querySelector(".start");
@@ -51,7 +35,8 @@ const View=(()=>{
             const imgElement= document.createElement('img');
             imgElement.src='./display.jpg';
             imgElement.width=200;
-            imgElement.classList.add('img_ref')
+            imgElement.classList.add('img_ref');
+            imgElement.id=element.id;
             imgElement.height=200;
             item.appendChild(imgElement);
             
@@ -72,7 +57,6 @@ const View=(()=>{
     const displayAllSnakes=()=>{
         clearAllElement();
         const elements= document.querySelectorAll(".item_circle");
-
         elements.forEach(el=>{
             const imgElement= document.createElement('img');
             imgElement.src='./snakepic.jpg';
@@ -85,15 +69,13 @@ const View=(()=>{
     }
 
     const displaySnake=(id)=>{
-       
         const item = document.querySelector(`#num_${id}`);
             const imgElement= document.createElement('img');
             imgElement.src='./snakepic.jpg';
             imgElement.width=200;
             imgElement.classList.add('img_bad');
             imgElement.height=200;
-            item.appendChild(imgElement);
-            
+            item.appendChild(imgElement);         
 
     }
 
@@ -120,7 +102,9 @@ const Model=((View, model)=>{
         }
 
         changeGameBoard(id){
-            this.#gameboard= this.#gameboard.map(el=> el.id !==id? el : {...el, status: true} );
+
+            this.#gameboard= this.#gameboard.map(el=> el.id !=id? el : {...el, status: true} );
+            console.log(this.#gameboard);
         }
 
         returnItems(elements){
@@ -151,13 +135,14 @@ const Controller =((view, model)=>{
             numbers.push(Math.floor(1+Math.random()*12));
 
         }
-        console.log(numbers);
+    
         const items= state.returnItems(numbers);
        
         view.showImages(items)
 
             if(count==0){
-                alert ("Time is up")
+                alert ("Time is up");
+                clearInterval(intervalID2);
                 clearInterval(intervalID);
             }
 
@@ -171,8 +156,6 @@ const Controller =((view, model)=>{
             if(count===0){
                 clearInterval(intervalID2);
             }
-
-            
             
         }, 2000);
 
@@ -181,10 +164,13 @@ const Controller =((view, model)=>{
     }
 
     const increaseCount =(e)=>{
+        e.preventDefault();
         if(e.target.classList.contains("img_ref")){
             e.target.remove();
             winnings++
             document.querySelector("#score").textContent=winnings;
+
+            state.changeGameBoard(e.target.id)
         }
 
         if(e.target.classList.contains("img_bad")){
@@ -196,8 +182,7 @@ const Controller =((view, model)=>{
             
         }
 
-
-        e.preventDefault
+  
     }
 
 
